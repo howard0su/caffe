@@ -9,6 +9,10 @@
 
 #include "caffe/fast_rcnn_layers.hpp"
 
+#ifdef _MSC_VER
+#define round(x) ((int)((x) + 0.5))
+#endif
+
 using std::max;
 using std::min;
 using std::floor;
