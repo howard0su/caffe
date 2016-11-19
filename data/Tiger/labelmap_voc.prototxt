@@ -1,0 +1,20 @@
+item {
+  name: "vehicle"
+  label: 1
+  display_name: "vehicle"
+}
+item {
+  name: "pedestrian"
+  label: 2
+  display_name: "pedestrian"
+}
+item {
+  name: "cyclist"
+  label: 3
+  display_name: "cyclist"
+}
+item {
+  name: "lights"
+  label: 20
+  display_name: "traffic lights"
+}
