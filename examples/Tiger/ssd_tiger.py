@@ -58,7 +58,7 @@ train_data = "examples/Tiger/Tiger_trainval_lmdb"
 # The database file for testing data. Created by data/VOC0712/create_data.sh
 test_data = "examples/Tiger/Tiger_test_lmdb"
 # Specify the batch sampler.
-resize_width = 640
+resize_width = 640 
 resize_height = 360
 resize = "{}x{}".format(resize_width, resize_height)
 batch_sampler = [
@@ -220,7 +220,7 @@ pretrain_model = "models/VGGNet/VGG_ILSVRC_16_layers_fc_reduced.caffemodel"
 label_map_file = "data/Tiger/labelmap_voc.prototxt"
 
 # MultiBoxLoss parameters.
-num_classes = 4 
+num_classes = 5
 share_location = True
 background_label_id=0
 train_on_diff_gt = True
@@ -250,7 +250,7 @@ loss_param = {
 
 # parameters for generating priors.
 # minimum dimension of input image
-min_dim = 500
+min_dim = 640
 # conv4_3 ==> 63 x 63
 # fc7 ==> 32 x 32
 # conv6_2 ==> 16 x 16
@@ -283,18 +283,17 @@ clip = True
 
 # Solver parameters.
 # Defining which GPUs to use.
-gpus = ""
+gpus = "0"
 gpulist = gpus.split(",")
 num_gpus = len(gpulist)
 
 # Divide the mini-batch to different GPUs.
-batch_size = 32
+batch_size = 4
 accum_batch_size = 32
 iter_size = accum_batch_size / batch_size
 solver_mode = P.Solver.CPU
 device_id = 0
 batch_size_per_device = batch_size
-num_gpus = 0
 if num_gpus > 0:
   batch_size_per_device = int(math.ceil(float(batch_size) / num_gpus))
   iter_size = int(math.ceil(float(accum_batch_size) / (batch_size_per_device * num_gpus)))
@@ -314,8 +313,8 @@ elif normalization_mode == P.Loss.FULL:
 freeze_layers = ['conv1_1', 'conv1_2', 'conv2_1', 'conv2_2']
 
 # Evaluate on whole test set.
-num_test_image = 4952
-test_batch_size = 1
+num_test_image = 200 
+test_batch_size = 16
 test_iter = num_test_image / test_batch_size
 
 solver_param = {

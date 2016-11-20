@@ -14,7 +14,9 @@ while s != '':
 	lablefn = 'label/' + id + '.txt'
 	txtfile = open(lablefn, 'w')	
 	for entry in result[name] :
-		txtfile.write ('{4}, {0}, {1}, {2}, {3}\n'.format(entry[0], entry[1], entry[2], entry[3], entry[4]))
+		if entry[4] == 20:
+			entry[4] = 4
+		txtfile.write ('{4} {0} {1} {2} {3}\n'.format(entry[0], entry[1], entry[2], entry[3], entry[4]))
 	txtfile.close()
 
 	# 10% data used for validation
@@ -26,4 +28,3 @@ while s != '':
 trainval.close()
 valid.close()
 fp.close()
-
