@@ -285,12 +285,20 @@ int main(int argc, char** argv) {
   // Process image one by one.
   std::ifstream infile(argv[3]);
   std::string file;
+  int firstfile = 1;
+  int firstdetect;
+  out << "{\n";
   while (infile >> file) {
     if (file_type == "image") {
       cv::Mat img = cv::imread(file, -1);
       CHECK(!img.empty()) << "Unable to decode image " << file;
       std::vector<vector<float> > detections = detector.Detect(img);
 
+      if (firstfile) firstfile = 0;
+      else out << "," << std::endl;
+
+      out << "\"" << file.substr(file.find_last_of('/')+1) << "\":[";
+      firstdetect = 1;
       /* Print the detection results. */
       for (int i = 0; i < detections.size(); ++i) {
         const vector<float>& d = detections[i];
@@ -298,15 +306,19 @@ int main(int argc, char** argv) {
         CHECK_EQ(d.size(), 7);
         const float score = d[2];
         if (score >= confidence_threshold) {
-          out << file << " ";
-          out << static_cast<int>(d[1]) << " ";
-          out << score << " ";
-          out << static_cast<int>(d[3] * img.cols) << " ";
-          out << static_cast<int>(d[4] * img.rows) << " ";
-          out << static_cast<int>(d[5] * img.cols) << " ";
-          out << static_cast<int>(d[6] * img.rows) << std::endl;
+          if (firstdetect) firstdetect = 0;
+          else out << ",";
+          out << "[";
+          out << static_cast<float>(d[3] * img.cols) << ", ";
+          out << static_cast<float>(d[4] * img.rows) << ", ";
+          out << static_cast<float>(d[5] * img.cols) << ", ";
+          out << static_cast<float>(d[6] * img.rows) << ", ";
+
+          out << static_cast<int>(d[1]) << ", ";
+          out << static_cast<float>(d[2]) << "] ";
         }
       }
+      out << "]";
     } else if (file_type == "video") {
       cv::VideoCapture cap(file);
       if (!cap.isOpened()) {
@@ -349,6 +361,7 @@ int main(int argc, char** argv) {
       LOG(FATAL) << "Unknown file_type: " << file_type;
     }
   }
+  out << "}\n";
   return 0;
 }
 #else
