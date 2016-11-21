@@ -308,13 +308,16 @@ int main(int argc, char** argv) {
         if (score >= confidence_threshold) {
           if (firstdetect) firstdetect = 0;
           else out << ",";
+
           out << "[";
           out << static_cast<float>(d[3] * img.cols) << ", ";
           out << static_cast<float>(d[4] * img.rows) << ", ";
           out << static_cast<float>(d[5] * img.cols) << ", ";
           out << static_cast<float>(d[6] * img.rows) << ", ";
 
-          out << static_cast<int>(d[1]) << ", ";
+	  int label = static_cast<int>(d[1]);
+          if (label == 4) label = 20;
+          out << label << ", ";
           out << static_cast<float>(d[2]) << "] ";
         }
       }
