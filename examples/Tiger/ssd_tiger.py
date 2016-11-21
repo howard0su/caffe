@@ -288,7 +288,7 @@ gpulist = gpus.split(",")
 num_gpus = len(gpulist)
 
 # Divide the mini-batch to different GPUs.
-batch_size = 4
+batch_size = 6
 accum_batch_size = 32
 iter_size = accum_batch_size / batch_size
 solver_mode = P.Solver.CPU
@@ -314,7 +314,7 @@ freeze_layers = ['conv1_1', 'conv1_2', 'conv2_1', 'conv2_2']
 
 # Evaluate on whole test set.
 num_test_image = 200 
-test_batch_size = 16
+test_batch_size = 1
 test_iter = num_test_image / test_batch_size
 
 solver_param = {
@@ -327,7 +327,7 @@ solver_param = {
     'momentum': 0.9,
     'iter_size': iter_size,
     'max_iter': 60000,
-    'snapshot': 40000,
+    'snapshot': 10000,
     'display': 10,
     'average_loss': 10,
     'type': "SGD",
