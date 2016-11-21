@@ -22,8 +22,7 @@ while s != '':
 	# 10% data used for validation
 	if random.randint(0, 9) == 5:	
 		valid.write ('{0} {1}\n'.format('training/'+name, lablefn))
-	else:
-		trainval.write ('{0} {1}\n'.format('training/'+name, lablefn))
+	trainval.write ('{0} {1}\n'.format('training/'+name, lablefn))
 	s = fp.readline()
 trainval.close()
 valid.close()
