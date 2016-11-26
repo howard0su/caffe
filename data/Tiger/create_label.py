@@ -26,16 +26,6 @@ while s != '':
 		valid.write ('{0} {1}\n'.format('training/'+name, lablefn))
 	else:
 		trainval.write ('{0} {1}\n'.format('training/'+name, lablefn))
-		img = Image.open('training/' + name)
-		img.transpose(Image.FLIP_LEFT_RIGHT)
-		imagefn = 'gen/' + id + '_.jpg';
-		img.save(imagefn, "JPEG")
-		lable2fn = 'label/' + id + '_.txt'
-		txtfile = open(lable2fn, 'w')
-		for entry in result[name] :
-			txtfile.write ('{4} {0} {1} {2} {3}\n'.format(width - entry[2], entry[1], width - entry[0], entry[3], entry[4]))
-		txtfile.close()
-		trainval.write ('{0} {1}\n'.format(imagefn, lable2fn))
 	s = fp.readline()
 trainval.close()
 valid.close()
