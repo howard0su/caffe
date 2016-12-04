@@ -35,6 +35,14 @@ Dtype BoxIOU(const Dtype x1, const Dtype y1, const Dtype w1, const Dtype h1,
     return over/u;
 }
 
+template
+float BoxIOU(const float x1, const float y1, const float w1, const float h1,
+		          const float x2, const float y2, const float w2, const float h2, const string mode);
+
+template
+double BoxIOU(const double x1, const double y1, const double w1, const double h1,
+		          const double x2, const double y2, const double w2, const double h2, const string mode);
+
 template<>
 void caffe_cpu_gemm<float>(const CBLAS_TRANSPOSE TransA,
     const CBLAS_TRANSPOSE TransB, const int M, const int N, const int K,
