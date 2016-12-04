@@ -49,6 +49,7 @@ template <typename Dtype>
 class Batch {
  public:
   Blob<Dtype> data_, label_;
+  vector<shared_ptr<Blob<Dtype> > > labels_;
 };
 
 template <typename Dtype>

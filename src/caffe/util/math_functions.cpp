@@ -9,6 +9,32 @@
 
 namespace caffe {
 
+template <typename Dtype>
+Dtype BoxIOU(const Dtype x1, const Dtype y1, const Dtype w1, const Dtype h1,
+          const Dtype x2, const Dtype y2, const Dtype w2, const Dtype h2, const string mode) {
+	if (w1<=0 || h1<=0 || w2<=0 || h2<=0) {
+          return Dtype(0);
+        }
+    Dtype tlx = std::max(x1, x2);
+    Dtype tly = std::max(y1, y2);
+    Dtype brx = std::min(x1+w1, x2+w2);
+    Dtype bry = std::min(y1+h1, y2+h2);
+    Dtype over;
+    if ((tlx >= brx) || (tly >= bry)) over = Dtype(0);
+    else over = (brx-tlx)*(bry-tly);
+
+    Dtype u;
+    if (mode == "IOMU") {
+        u = std::min(w1*h1,w2*h2);
+    } else if (mode == "IOFU") {
+        u = w1*h1;
+    } else {
+        u = w1*h1+w2*h2-over;
+    }
+     
+    return over/u;
+}
+
 template<>
 void caffe_cpu_gemm<float>(const CBLAS_TRANSPOSE TransA,
     const CBLAS_TRANSPOSE TransB, const int M, const int N, const int K,
